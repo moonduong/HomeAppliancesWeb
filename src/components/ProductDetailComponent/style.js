@@ -65,7 +65,6 @@ export const WrapperQualityProduct = styled.div`
     border: 1px solid #ccc;
     border-radius: 4px;
 `
-
 export const WrapperInputNumber = styled(InputNumber)`
     &.ant-input-number.ant-input-number-sm {
         width: 40px;

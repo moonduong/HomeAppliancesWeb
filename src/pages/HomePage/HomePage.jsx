@@ -13,14 +13,15 @@ const HomePage = () => {
 
     return (
         <>
-            <div style={{ padding: '0 120px' }}>
+            <div style={{ padding: '0 120px', margin:'0 auto' }}>
                 <WapperTypeProduct>
                     {arr.map((item) => (
                         <TypeProduct name={item} key={item} />
                     ))}
                 </WapperTypeProduct>
             </div>
-            <div id="container" style={{ backgroundColor: "#efefef", padding:'0 120px', height:'1000px', width:'100%' }}>
+            <div className="body" style={{width:'100%', backgroundColor:'#efefef'}}>
+            <div id="container" style={{  height:'1000px', width:'1270px', margin:'0 auto' }}>
                 <SlideComponent arrImages={[slide1, slide2, slide3]} />
                 <WrapperProducts>
                     <CardComponent/>
@@ -31,6 +32,7 @@ const HomePage = () => {
                     <CardComponent/>      
                     <CardComponent/>             
                 </WrapperProducts>
+            
                 <div style={{width:'100%', display:'flex', justifyContent:'center', marginTop:'10px'}}>
                 <WrapperButtonMore textButton="Xem thêm" type="outline" styleButton={{
                     border: '1px solid rgb(11, 116 ,229)', color:'rgb(11, 116,229)',
@@ -38,6 +40,7 @@ const HomePage = () => {
                 }}/>
                 <styleTextButton style={{fontWeight:'500'}}/>
                 </div>
+            </div>
             </div>
         </>
     );

@@ -11,7 +11,7 @@ import {
 
 const HeaderComponent =()=>{
     return(
-        <div>
+        <div style={{width:'100%', background:'rgb(26, 148, 255)', display:'flex', justifyContent:'center'}}>
             <WrapperHeader gutter={16}> 
                 <Col span={6}>
                     <WapperTextHeader>
