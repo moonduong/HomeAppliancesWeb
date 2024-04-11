@@ -3,7 +3,7 @@ import {useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DefaultComponent from './components/DefaultComponent/DefaultComponent';
 import { routes } from './route/index'; 
-import axios from 'axios';
+import axios from 'axios'
 
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
   }, [])
 
 
-  console.log('process.env.REACT_APP_API_URL', process.env.REACT_APP_API_URL)
+  console.log('process.env.REACT_API_URL_BACKEND', process.env.REACT_API_URL_BACKEND)
   const fetchAPI = async()=>{
     const res =await axios.get(`http://localhost:3001/api/product/get-all`)
     console.log('res', res)
