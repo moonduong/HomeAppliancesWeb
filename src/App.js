@@ -3,22 +3,25 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DefaultComponent from './components/DefaultComponent/DefaultComponent';
 import { routes } from './route/index'; 
 import axios from 'axios'
-// import dotenv from 'dotenv';
-// dotenv.config();
+import {useQuery} from '@tanstack/react-query'
 
 function App() {
 
-  useEffect(()=>{
-    fetchAPI()
-  }, [])
+
+  // useEffect(()=>{
+  //   fetchAPI()
+  // }, [])
 
 
-  console.log('REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
+  // console.log('REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
   const fetchAPI = async()=>{
-    const res =await axios.get(`http://localhost:3001/api/product/get-all`)
-    console.log('res', res)
+    const res =await axios.get(`${process.env.REACT_APP_API_URL}/product/get-all`)
+    return res.data
   }
  
+  const query = useQuery({ queryKey: ['todos'], queryFn: fetchAPI })
+
+  console.log('query', query)
 
   return (
     <div>
