@@ -8,8 +8,13 @@ import {
     CaretDownOutlined,
     ShoppingCartOutlined,
   } from '@ant-design/icons';
+  import {useNavigate} from 'react-router-dom';
 
 const HeaderComponent =()=>{
+    const navigate = useNavigate()
+    const handleNavigateLogin =()=>{
+        navigate('/sign-in')
+    }
     return(
         <div style={{width:'100%', background:'rgb(26, 148, 255)', display:'flex', justifyContent:'center'}}>
             <WrapperHeader gutter={16}> 
@@ -22,7 +27,7 @@ const HeaderComponent =()=>{
                     
                     <ButtonInputSearch 
                     size="large"
-                    bordered={false}
+                    // bordered={false}
                     textButton="Tìm kiếm"
                     placeholder="input"  />
                 </Col>
@@ -30,7 +35,7 @@ const HeaderComponent =()=>{
                     <WapperHeaderAccount>
                         
                             <UserOutlined style={{fontSize: '30px'}}/>
-                        <div>
+                        <div onClick={handleNavigateLogin} style={{cursor:'pointer'}}>
                             <WapperTextHeaderSmall>Đăng nhập/Đăng ký</WapperTextHeaderSmall>
                             <div>
                                 <WapperTextHeaderSmall>Tài khoản</WapperTextHeaderSmall>
