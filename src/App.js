@@ -4,22 +4,69 @@ import DefaultComponent from './components/DefaultComponent/DefaultComponent';
 import { routes } from './route/index'; 
 import axios from 'axios'
 import {useQuery} from '@tanstack/react-query'
+import { jwtDecode } from "jwt-decode";
+import { isJsonString } from './utils';
+// import { updateUser } from "../../redux/slice/userSlide";
+// import {useDispatch} from "react-redux"
+import * as UserService from './services/UserService';
+import { updateUser } from './redux/slice/userSlide';
+import {useDispatch} from "react-redux"
+
 
 function App() {
+  const dispatch=useDispatch();
+
+  useEffect(() => {
+
+    const {storageData, decoded}= handleDecoded()
+      if(decoded?.id){
+        handleGetDetailsUser(decoded?.id, storageData)
+      }
+    }
+
+    // setIsLoading(true)
+    // const { storageData, decoded } = handleDecoded()
+    // if (decoded?.id) {
+    //   handleGetDetailsUser(decoded?.id, storageData)
+    // }
+    // setIsLoading(false)
+  , [])
 
 
-  // useEffect(()=>{
-  //   fetchAPI()
-  // }, [])
+  const handleDecoded = () => {
+    let storageData= localStorage.getItem('access_token')
+    let decoded ={}
+    if(storageData && isJsonString(storageData)){
+      storageData= JSON.parse(storageData)
+      decoded= jwtDecode(storageData)
+      
+    }
+    return{decoded, storageData}
+  }
 
-  // const fetchAPI = async()=>{
-  //   const res =await axios.get(`${process.env.REACT_APP_API_URL}/product/get-all`)
-  //   return res.data
-  // }
- 
-  // const query = useQuery({ queryKey: ['todos'], queryFn: fetchAPI })
 
-  // console.log('query', query)
+  UserService.axiosJWT.interceptors.request.use(async(config) =>{
+    const  currentTime= new Date()
+    const { decoded}= handleDecoded()
+    // Do something before request is sent
+    if(decoded?.exp < currentTime.getTime() / 1000){
+      const data= await UserService.refreshToken()
+      config.headers['token'] ='Bearer ${data?.access_token}'
+    }
+    return config;
+  }, (err) =>{
+    // Do something with request error
+    return Promise.reject(err);
+  });
+
+  const handleGetDetailsUser = async (id, token) => {
+    // const storage = localStorage.getItem('refresh_token')
+    // const refresh_token = JSON.parse(storage)
+    const res = await UserService. getDetailsUser(id, token)
+    console.log('res', res)
+    dispatch(updateUser({ ...res?.data, access_token: token }))
+  }
+
 
   return (
     <div>
