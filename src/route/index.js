@@ -6,6 +6,7 @@ import TypeProductPage from "../pages/TypeProductPage/TypeProductPage";
 import SignUp from "../pages/SignUpPage/SignUpage";
 import SignIn from "../pages/SignInPage/SignInPage";
 import ProductDetailPage  from "../pages/ProductDetailPage/ProductDetailPage";
+import ProfilePage from "../pages/Profile/Profile.Page";
 
 export const routes=[
     {
@@ -42,6 +43,11 @@ export const routes=[
     {
         path: '/product-details',
         page: ProductDetailPage,
+        isShowHeader: true
+    },
+    {
+        path: '/profile',
+        page: ProfilePage,
         isShowHeader: true
     },
     {

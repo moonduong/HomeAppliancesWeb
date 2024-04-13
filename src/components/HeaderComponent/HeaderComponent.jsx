@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {  Badge, Button, Col, Popover } from 'antd';
 import { WrapperHeader, WapperTextHeaderSmall, WrapperContentPopup } from "./style";
 import {WapperTextHeader,WapperHeaderAccount} from "./style";
@@ -19,6 +19,9 @@ const HeaderComponent =()=>{
     const navigate = useNavigate()
     const user = useSelector((state) => state.user)
     const dispatch= useDispatch();
+    const [userName, setUserName] = useState('')
+//   const [userAvatar, setUserAvatar] = useState('')
+//   const [search,setSearch] = useState('')
     const [loading, setLoading]= useState(false)
     const handleNavigateLogin =()=>{
         navigate('/sign-in')
@@ -32,14 +35,21 @@ const HeaderComponent =()=>{
         setLoading(false)
       }
 
+      useEffect(() => {
+        setLoading(true)
+        setUserName(user?.name)
+        // setUserAvatar(user?.avatar)
+        setLoading(false)
+      }, [user?.name])
+    
+    
     const content = (
         <div>
           <WrapperContentPopup onClick={handleLogout}>Đăng xuất</WrapperContentPopup>
-          <WrapperContentPopup>Thông tin người dùng</WrapperContentPopup>
+          <WrapperContentPopup onClick={()=>navigate('/profile')}>Thông tin người dùng</WrapperContentPopup>
         </div>
       );
 
-    
 
     return(
         <div style={{width:'100%', background:'rgb(26, 148, 255)', display:'flex', justifyContent:'center'}}>
@@ -62,11 +72,11 @@ const HeaderComponent =()=>{
                     <WapperHeaderAccount>
                         
                             <UserOutlined style={{fontSize: '30px'}}/>
-                            {user?.name ?(
+                            {user?.access_token ?(
                                 <>
                                 
                                 <Popover content={content} trigger="click">
-                                    <div style={{cursor:'pointer'}}>{user.name}</div>
+                                    <div style={{cursor:'pointer'}}>{userName?.length ? userName: user?.email}</div>
                                 </Popover>
 
                                 </>
