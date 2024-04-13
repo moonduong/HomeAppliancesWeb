@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { WrapperContentProfile, WrapperHeader, WrapperInput, WrapperLabel } from './style'
+import { WrapperContentProfile, WrapperHeader, WrapperInput, WrapperLabel, WrapperUploadFile } from './style'
 import InputForm from '../../components/InputForm/InputForm'
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
 import { useSelector } from 'react-redux'
@@ -9,6 +9,11 @@ import Loading from '../../components/LoadingComponent/Loading'
 import * as message from '../../components/Message/Message'
 import {useDispatch} from "react-redux"
 import { updateUser } from '../../redux/slice/userSlide'
+import { Button, Upload } from 'antd'
+import {
+    UploadOutlined
+  } from '@ant-design/icons';
+import { getBase64 } from '../../utils'
 
 const ProfilePage=()=>{
     const user = useSelector((state) => state.user)
@@ -67,10 +72,14 @@ const ProfilePage=()=>{
         setAddress(value)
     }
 
-
-    const handleOnchangeAvatar = (value) => {
-        setAvatar(value)
+    const handleOnchangeAvatar= async ({fileList}) => {
+        const file = fileList[0]
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj );
+        }
+        setAvatar(file.preview)
     }
+
     const handleUpdate = () => {
         mutation.mutate( {id: user?.id, email, name, phone, address, avatar , access_token:user?.access_token})
     }
@@ -152,7 +161,18 @@ const ProfilePage=()=>{
 
                     <WrapperInput>
                         <WrapperLabel htmlFor="avatar">Avatar</WrapperLabel>
-                    <InputForm  style={{ width: '300px' }} id=" avatar" value={avatar} onChange={handleOnchangeAvatar} />
+                        <WrapperUploadFile onChange={handleOnchangeAvatar} maxCount={1}>
+                        <Button icon={<UploadOutlined />}>Select File</Button>
+                        </WrapperUploadFile>
+                        {avatar && (
+                            <img src={avatar} style={{
+                                height:'60px',
+                                width: '60px',
+                                borderRadius: '50%',
+                                objectFit: 'cover'
+                            }} alt="avatar"/>
+                        )}
+                    {/* <InputForm  style={{ width: '300px' }} id=" avatar" value={avatar} onChange={handleOnchangeAvatar} /> */}
                     <ButtonComponent
                                 onClick={handleUpdate}
                                 size={40}
