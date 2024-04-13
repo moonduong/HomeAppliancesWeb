@@ -23,15 +23,8 @@ function App() {
       if(decoded?.id){
         handleGetDetailsUser(decoded?.id, storageData)
       }
-      // setIsPending(false)
+      setIsPending(false)
     } 
-
-    // setIsLoading(true)
-    // const { storageData, decoded } = handleDecoded()
-    // if (decoded?.id) {
-    //   handleGetDetailsUser(decoded?.id, storageData)
-    // }
-    // setIsLoading(false)
   , [])
 
 
@@ -67,7 +60,7 @@ function App() {
     const res = await UserService. getDetailsUser(id, token)
     console.log('res', res)
     dispatch(updateUser({ ...res?.data, access_token: token }))
-    setIsPending(false)
+
   }
 
 
