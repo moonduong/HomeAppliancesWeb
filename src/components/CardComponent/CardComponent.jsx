@@ -6,7 +6,8 @@ import {
 import logo from '../../assets/images/logo.jpg';
 
 
-const CardComponent =()=>{
+const CardComponent =(props)=>{
+    const {countInStock, description, image,name, price, rating, type, selled,discount }= props
     return(
         <WrapperCardStyle
             hoverable
@@ -20,17 +21,17 @@ const CardComponent =()=>{
                 position:'absolute', top:-1 , left:-1,
                 borderTopLeftRadius:'3px'}}
             />
-            <StyleNameProduct>Máy giặt AQUA</StyleNameProduct>
+            <StyleNameProduct>{name}</StyleNameProduct>
             <WrapperReportText>
                 <span style={{marginRight:'4px' }}>
-                    <span>4.9</span> <StarFilled style={{fontSize:'12px', color:'yellow'}}/>
+                    <span>{rating}</span> <StarFilled style={{fontSize:'12px', color:'yellow'}}/>
                 </span>
-                <WrapperStyleTextSell> | Đã bán 99+</WrapperStyleTextSell>
+                <WrapperStyleTextSell> | Đã bán {selled || 99}+</WrapperStyleTextSell>
             </WrapperReportText>
             <WrapperPriceText> 
-               <span style={{marginRight:'8px'}}>10.000.000đ</span> 
+               <span style={{marginRight:'8px'}}>{price}</span> 
                 <WrapperDiscountText>
-                    -10%
+                    {discount || 5}%
                 </WrapperDiscountText>
             </WrapperPriceText>
         </WrapperCardStyle>

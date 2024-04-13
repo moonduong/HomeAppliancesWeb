@@ -1,4 +1,4 @@
-import React, {useEffect , Fragment} from 'react';
+import React, {useEffect , Fragment, useState} from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DefaultComponent from './components/DefaultComponent/DefaultComponent';
 import { routes } from './route/index'; 
@@ -6,23 +6,25 @@ import axios from 'axios'
 import {useQuery} from '@tanstack/react-query'
 import { jwtDecode } from "jwt-decode";
 import { isJsonString } from './utils';
-// import { updateUser } from "../../redux/slice/userSlide";
-// import {useDispatch} from "react-redux"
 import * as UserService from './services/UserService';
 import { updateUser } from './redux/slice/userSlide';
-import {useDispatch} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
+import Loading from './components/LoadingComponent/Loading';
 
 
 function App() {
   const dispatch=useDispatch();
+  const [isPending, setIsPending]= useState(false)
+  const user = useSelector((state) => state.user)
 
   useEffect(() => {
-
+    setIsPending(true)
     const {storageData, decoded}= handleDecoded()
       if(decoded?.id){
         handleGetDetailsUser(decoded?.id, storageData)
       }
-    }
+      // setIsPending(false)
+    } 
 
     // setIsLoading(true)
     // const { storageData, decoded } = handleDecoded()
@@ -65,15 +67,19 @@ function App() {
     const res = await UserService. getDetailsUser(id, token)
     console.log('res', res)
     dispatch(updateUser({ ...res?.data, access_token: token }))
+    setIsPending(false)
   }
 
 
   return (
     <div>
+      <Loading isPending={isPending} style={{background:'#ccc'}}  >
       <Router>
         <Routes>
           {routes.map((route) => {
             const Page = route.page;
+            const ischeckAuth = !route.isPrivate || user.isAdmin
+
             const Layout =route.isShowHeader ? DefaultComponent: Fragment;
             return (
               <Route key={route.path} path={route.path} element={
@@ -85,6 +91,7 @@ function App() {
           })}
         </Routes>
       </Router>
+      </Loading>
     </div>
   );
 }
