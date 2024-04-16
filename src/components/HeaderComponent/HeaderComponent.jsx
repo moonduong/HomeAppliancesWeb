@@ -35,10 +35,10 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     }
 
     useEffect(() => {
-        setLoading(true)
+        // setLoading(true)
         setUserName(user?.name)
         setUserAvatar(user?.avatar)
-        setLoading(false)
+        // setLoading(false)
     }, [user?.name, user?.avatar])
 
     const isAdmin = user?.isAdmin;
